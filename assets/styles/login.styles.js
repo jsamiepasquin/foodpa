@@ -22,7 +22,7 @@ exports.styles = StyleSheet.create({
         flexBasis:'column',
         gap:5,
         width:'80%',
-        marginTop:'40%',
+        marginTop:'10%',
         margin:'auto',
     },
     buttonLogin:{

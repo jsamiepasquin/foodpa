@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, View, Alert, ScrollView } from 'react-native';
+import { Image, StyleSheet, Platform, View, Alert, ScrollView, Text } from 'react-native';
 import { Button, PaperProvider, TextInput } from 'react-native-paper';
 import { theme } from '../configs/theme';
 import { styles } from '../assets/styles/login.styles';
@@ -17,8 +17,8 @@ export default function Register() {
         userStorage.data);
 
     const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("")
-    const [repassword, setRePassword] = useState("")
+    const [password, setPassword] = useState("no-password")
+    const [repassword, setRePassword] = useState("no-password")
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
     const [birthday, setBirthday] = useState("")
@@ -64,21 +64,19 @@ export default function Register() {
         console.log({
             username,password
         })
-        setTimeout(()=>{
-            setUserStorage({
-                auth:password,
-                data:{
-                    ...userStorage.data,
-                    firstName:firstname,
-                    lastName:lastname,
-                    gender:gender,
-                    birthday:birthday,
-                    email:username,
-                }
-            })
-    
-            router.replace('/login')
-        },1000)
+        setUserStorage({
+            auth:password,
+            data:{
+                ...userStorage.data,
+                firstName:firstname,
+                lastName:lastname,
+                gender:gender,
+                birthday:birthday,
+                email:username,
+            }
+        })
+
+        router.replace('/(tabs)')
 
         // const registerUrl = settings.server_url+'/users/register'
 
@@ -106,14 +104,21 @@ export default function Register() {
         <SafeAreaView>
             <ScrollView>
                 <View style={styles.loginContainer}>
+                    <Text style={{
+                        fontSize:40,
+                        fontWeight:'bold',
+                        borderBottomWidth:1,
+                        marginBottom:20,
+                        paddingBottom:20
+                    }}>Tell Me About Your Self</Text>
                     <TextInput label={"Firstname"} mode='flat' onChangeText={(value) => handleChangeText('firstname', value)} value={firstname} />
                     <TextInput label={"Lastname"} mode='flat' onChangeText={(value) => handleChangeText('lastname', value)} value={lastname} />
                     <TextInput label={"Gender"} mode='flat' onChangeText={(value) => handleChangeText('gender', value)} value={gender} placeholder='Male/Female' />
                     <TextInput label={"Birthday"} mode='flat' onChangeText={(value) => handleChangeText('birthday', value)} value={birthday} placeholder='mm/dd/yyyy' />
-                    <TextInput label={"Username"} mode='flat' onChangeText={(value) => handleChangeText('username', value)} value={username} inputMode='email' />
-                    <TextInput label={"Password"} mode='flat' onChangeText={(value) => handleChangeText('password', value)} value={password} secureTextEntry />
-                    <TextInput label={"Retype Password"} mode='flat' onChangeText={(value) => handleChangeText('repassword', value)} value={repassword} secureTextEntry />
-                    <Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleRegister}>Register</Button>
+                    <TextInput label={"Email"} mode='flat' onChangeText={(value) => handleChangeText('username', value)} value={username} inputMode='email' />
+                    {/* <TextInput label={"Password"} mode='flat' onChangeText={(value) => handleChangeText('password', value)} value={password} secureTextEntry />
+                    <TextInput label={"Retype Password"} mode='flat' onChangeText={(value) => handleChangeText('repassword', value)} value={repassword} secureTextEntry /> */}
+                    <Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleRegister}>Save Profile</Button>
                 </View>
             </ScrollView>
         </SafeAreaView>

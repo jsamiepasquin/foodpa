@@ -29,7 +29,7 @@ export default function () {
         console.log('checking user', userStorage)
         dispatch(setUser(userStorage))
         if (!userStorage.auth) {
-            router.replace('/login')
+            router.replace('/register')
         }
 
 
@@ -44,7 +44,7 @@ export default function () {
         setTimeout(()=>{
             dispatch(setUser({...userState,auth:''}))
 
-        router.replace('/login')
+        router.replace('/register')
         },1000)
 
     }

@@ -20,7 +20,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rja.betterme"
+      "package": "com.rja.foodpa"
     },
     "web": {
       "bundler": "metro",
@@ -38,7 +38,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "4fac25fc-1a46-46d9-bef4-5c9a899a684e"
+        "projectId": "cfef3aa8-7c47-437b-bd93-3983900856f1"
       }
     }
   }

@@ -4,6 +4,18 @@ import { MMKVLoader, useMMKVStorage } from 'react-native-mmkv-storage';
 
 const storage = new MMKVLoader().initialize();
 
+interface Meal {
+    item: string;
+    notes: string;
+  }
+  
+  interface MealPlan {
+    date: string;
+    breakfast: Meal[];
+    lunch: Meal[];
+    dinner: Meal[];
+  }
+
 export default function mmkvController() {
     const [userKey, setUserKey] = useMMKVStorage('user_key', storage, 'user');
 
@@ -34,49 +46,7 @@ export default function mmkvController() {
         history: [] as object[],
     });
 
-    const [meals, setMeals] = useMMKVStorage('meals', storage, [
-        {
-            "date": "2024-08-28",
-            "breakfast": [
-                {
-                    "item": "Oatmeal",
-                    "notes": "Low-sodium oats, avoid added sugar, cooked with water or unsweetened almond milk"
-                },
-                {
-                    "item": "Banana",
-                    "notes": "Potassium-rich, easy to digest"
-                },
-                {
-                    "item": "Plain yogurt",
-                    "notes": "Plain, low-fat yogurt, can be fortified with probiotics for gut health"
-                }
-            ],
-            "lunch": [
-                {
-                    "item": "Grilled chicken salad",
-                    "notes": "Grilled chicken breast, lettuce, spinach, cucumber, tomatoes, and a light vinaigrette dressing (avoid corn and peanuts)"
-                },
-                {
-                    "item": "Brown rice",
-                    "notes": "Good source of fiber, easy to digest"
-                }
-            ],
-            "dinner": [
-                {
-                    "item": "Salmon",
-                    "notes": "Lean protein source, rich in omega-3 fatty acids"
-                },
-                {
-                    "item": "Roasted vegetables",
-                    "notes": "Avoid corn, choose vegetables like broccoli, carrots, green beans, and sweet potatoes"
-                },
-                {
-                    "item": "Quinoa",
-                    "notes": "Gluten-free grain, good source of protein and fiber"
-                }
-            ]
-        }
-    ])
+    const [meals, setMeals] = useMMKVStorage('meals', storage, [])
 
 
 return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals }

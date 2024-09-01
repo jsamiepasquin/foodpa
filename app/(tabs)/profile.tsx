@@ -84,7 +84,7 @@ export default function Profile() {
           ) : (
             <>
               <Button mode='contained' style={profileStyle.buttonSave} buttonColor="white" onTouchEnd={() => setMode('edit')} >Edit Profile</Button>
-              <Button mode='contained' style={profileStyle.buttonSave} buttonColor="gray" textColor="white" onTouchEnd={logoutHandle}>Logout</Button>
+              {/* <Button mode='contained' style={profileStyle.buttonSave} buttonColor="gray" textColor="white" onTouchEnd={logoutHandle}>Logout</Button> */}
 
             </>
           )}

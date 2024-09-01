@@ -6,11 +6,14 @@ import axios from "axios";
 import { calculateAge } from "@/helpers/helper";
 import { useEffect, useState } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import useGemini from "@/hooks/useGemini";
 
 export default function Meals() {
 
+  const {generateMealPlan} = useGemini();
   const { userStorage, setUserStorage, meals, setMeals, medical, currentCondition } = mmkvController()
   const [loading, setLoading] = useState(false)
+
 
 
   useEffect(() => {
@@ -38,13 +41,12 @@ export default function Meals() {
     const diseases = JSON.stringify(medical.desieases);
 
 
-    const mealRequest = await axios.post(url, {
+    const mealRequest = await generateMealPlan({
       age: age, gender: userData.gender, feeling: currentCondition, current_diseases: diseases,
       bmi: bmi, allergies: alergies, medical_history: medicalHistory
     })
 
-    console.log(mealRequest.data)
-    setMeals([...meals, mealRequest.data.meal_plan])
+    setMeals([...meals, mealRequest.meal_plan])
     setLoading(false)
 
   }
