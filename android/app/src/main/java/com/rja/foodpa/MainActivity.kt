@@ -1,4 +1,4 @@
-package com.rja.betterme
+package com.rja.foodpa
 
 import android.os.Build
 import android.os.Bundle

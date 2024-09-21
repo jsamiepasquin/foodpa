@@ -109,9 +109,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.rja.betterme'
+    namespace 'com.rja.foodpa'
     defaultConfig {
-        applicationId 'com.rja.betterme'
+        applicationId 'com.rja.foodpa'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

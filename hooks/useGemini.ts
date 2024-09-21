@@ -10,6 +10,7 @@ export default function useGemini() {
         model:"gemini-1.5-flash",
         generationConfig: { responseMimeType: "application/json" }
     })
+    
     const generateMealPlan = async(healthData: {
         age: number,
         feeling: string,
@@ -28,6 +29,7 @@ export default function useGemini() {
         let prompt = `
         Prompt:
         Goal: Create a personalized meal plan to support a healthy body and immune system.
+        Food Type: Filipino Foods.
         Data:
         
         Age: ${age}
