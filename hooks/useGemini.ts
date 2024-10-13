@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import axios from "axios"
 
-const API_KEY = 'AIzaSyBZqgRAK7_EsCSpafPFVZBNcEsxXKzXn7w';
+const API_KEY = 'AIzaSyB20fqMAAQ7OyTds4E3i2dJ4M14moaBQDI';
 
 export default function useGemini() {
 

@@ -65,4 +65,6 @@ export const calculateAge = (birthday: string): number => {
         return 'Invalid BMI';
       
   };
-  
+  export const generateRandomNumber = function(min:number, max:number) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }

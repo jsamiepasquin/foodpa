@@ -17,8 +17,8 @@ export default function Register() {
         userStorage.data);
 
     const [username, setUsername] = useState("")
-    const [password, setPassword] = useState("no-password")
-    const [repassword, setRePassword] = useState("no-password")
+    const [password, setPassword] = useState("")
+    const [repassword, setRePassword] = useState("")
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
     const [birthday, setBirthday] = useState("")
@@ -58,46 +58,35 @@ export default function Register() {
         if (!repassword) return Alert.alert('Retype your password');
         if (password != repassword)return Alert.alert("Retyped password does not match with password");
 
-        
-        setUserKey(username)
+        console.log('user registring')
+        const registerUrl = settings.server_url+'/users/register'
+        try{
+            let req = await axios.post(registerUrl,{
+                inputs:{
+                    first_name:firstname,
+                    last_name:lastname,
+                    gender:gender,
+                    birth_date:birthday,
+                    email:username,
+                    password:password
+                }
+            })
+            let data = req.data
+            console.log(data)
+            setUserKey(username)
+            router.replace('/login')
+        }catch(error){
+            console.log(error)
+            if(error.response){
+                const status = error.response.status
+                if(status == 409)Alert.alert("Registration Failed","That email has already been taken")
+                else Alert.alert("Registration Failed","Something went wrong. Please try again")
 
-        console.log({
-            username,password
-        })
-        setUserStorage({
-            auth:password,
-            data:{
-                ...userStorage.data,
-                firstName:firstname,
-                lastName:lastname,
-                gender:gender,
-                birthday:birthday,
-                email:username,
-            }
-        })
-
-        router.replace('/(tabs)')
-
-        // const registerUrl = settings.server_url+'/users/register'
+            }else Alert.alert("Registration Failed","An unknown error occured")
 
 
-        // let req = await axios.post(registerUrl,{
-        //     inputs:{
-        //         first_name:firstname,
-        //         last_name:lastname,
-        //         gender:gender,
-        //         birth_date:birthday,
-        //         email:username,
-        //         password:password
-        //     }
-        // })
-        // let data = req.data
-
-        // if(data.status == 200){
-        //     router.replace('/login')
-        // }else{
-        //     Alert.alert("Registration Failed")
-        // }
+        }
+       
     }
 
     return (
@@ -116,9 +105,9 @@ export default function Register() {
                     <TextInput label={"Gender"} mode='flat' onChangeText={(value) => handleChangeText('gender', value)} value={gender} placeholder='Male/Female' />
                     <TextInput label={"Birthday"} mode='flat' onChangeText={(value) => handleChangeText('birthday', value)} value={birthday} placeholder='mm/dd/yyyy' />
                     <TextInput label={"Email"} mode='flat' onChangeText={(value) => handleChangeText('username', value)} value={username} inputMode='email' />
-                    {/* <TextInput label={"Password"} mode='flat' onChangeText={(value) => handleChangeText('password', value)} value={password} secureTextEntry />
-                    <TextInput label={"Retype Password"} mode='flat' onChangeText={(value) => handleChangeText('repassword', value)} value={repassword} secureTextEntry /> */}
-                    <Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleRegister}>Save Profile</Button>
+                    <TextInput label={"Password"} mode='flat' onChangeText={(value) => handleChangeText('password', value)} value={password} secureTextEntry />
+                    <TextInput label={"Retype Password"} mode='flat' onChangeText={(value) => handleChangeText('repassword', value)} value={repassword} secureTextEntry />
+                    <Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleRegister}>Register</Button>
                 </View>
             </ScrollView>
         </SafeAreaView>

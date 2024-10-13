@@ -6,77 +6,61 @@ import { Alert } from "react-native";
 import { router } from "expo-router";
 
 import mmkvController from "@/store/mmkvController";
-export default function useLogin(){
+export default function useLogin() {
 
-    const {userStorage, setUserStorage, setUserKey} = mmkvController()
+    const { userStorage, setUserStorage, setUserKey } = mmkvController()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
 
-    const usernameChanged = (text)=>{
+    const usernameChanged = (text) => {
         setUsername(text)
     }
-    const passwordHanged = (text)=>{
+    const passwordHanged = (text) => {
         setPassword(text)
     }
 
-    const handleLogin = async()=>{
-        // const loginUrl = settings.server_url+'/users/login'
-        // console.log(loginUrl)
-        // let res = await axios.post(loginUrl, {
-        //     email: username,
-        //     password: password
-        // }, {
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     }
-        // });
+    const handleLogin = async () => {
+        const loginUrl = settings.server_url + '/users/login'
+        try {
+            const response = await axios.post(loginUrl, {
+                email: username,
+                password
+            });
+            const data = response.data;
+            const user = data.user;
 
-        setUserKey(username)
+            setUserStorage({
+                auth: user.user_id,
+                data: {
+                    ...userStorage.data,
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    gender: user.gender,
+                    birthday: user.birth_date,
+                    email: user.email
+                }
+            })
+            router.replace('/')
+        } catch (err) {
+            console.log(err)
+            if (err.response) {
+                console.log(err.response.status, err.response)
+                if (err.response.status == 404) return Alert.alert('Login Failed', 'Wrong Username');
+                else if (err.response.status == 401) return Alert.alert('Login Failed', 'Wrong password');
+                else return Alert.alert('Login Failed', 'Something went wrong. Please try again.');
+            }
 
-        setTimeout(()=>{
-            let data = {
-                status:200,
-                user:userStorage.data
-            }
-            
-            if(userStorage.data.email != username)data.status = 404
-            if(userStorage.auth != password)data.status = 403
-        //    let data = res.data
-           console.log(data)
-    
-           if(data.status == 404){
-            return Alert.alert('Wrong Username')
-           }
-    
-           if(data.status == 403){
-            return Alert.alert('Wrong password')
-           }
-    
-           const user = data.user;
-    
-           setUserStorage({
-            auth:password,
-            data: {
-                ...userStorage.data,
-                firstName:user.firstName,
-                lastName:user.lastName,
-                gender:user.gender,
-                birthday:user.birthday,
-                email:user.email
-            }
-           })
-    
-           console.log(userStorage)
-    
-           router.replace('/')
-        },1000)
+        } finally {
+        }
+
+
     }
 
     const handleRegister = () => {
         router.replace('/register')
     }
     return {
-        usernameChanged,passwordHanged,username,password,handleLogin, handleRegister
+        usernameChanged, passwordHanged, username, password, handleLogin, handleRegister
     }
 }

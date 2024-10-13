@@ -7,6 +7,7 @@ import { calculateAge } from "@/helpers/helper";
 import { useEffect, useState } from "react";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import useGemini from "@/hooks/useGemini";
+import { router } from "expo-router";
 
 export default function Meals() {
 
@@ -82,7 +83,10 @@ export default function Meals() {
                     color:'white',
                     borderRadius:10,
                     backgroundColor:'grey',
+                    marginBottom:10
                 }}>{currentCondition}</Text>
+                
+          <Button mode="contained" textColor="white" onTouchEnd={()=>router.push('/tracking')} style={{}}>Meal Tracking</Button>
 
           {meals.map((m, i) => (
             <View style={{
@@ -101,7 +105,7 @@ export default function Meals() {
                   padding: 10,
                   borderRadius: 10,
                   marginBottom: 10
-                }}>
+                }} key={bi}>
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
 

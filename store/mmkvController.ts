@@ -18,7 +18,7 @@ interface Meal {
 
 export default function mmkvController() {
     const [userKey, setUserKey] = useMMKVStorage('user_key', storage, 'user');
-
+    const [mealHistory, setMealHistory] = useMMKVStorage('meal_history', storage, []);
     const [userStorage, setUserStorage] = useMMKVStorage('user  ', storage, {
         auth: "",
         data: {
@@ -49,5 +49,5 @@ export default function mmkvController() {
     const [meals, setMeals] = useMMKVStorage('meals', storage, [])
 
 
-return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals }
+return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals, mealHistory, setMealHistory }
 }

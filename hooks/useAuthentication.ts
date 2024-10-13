@@ -14,7 +14,7 @@ export default function () {
     
     const userState = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch()
-    const {userStorage, setUserStorage,setUserKey} = mmkvController()
+    const {userStorage, setUserStorage,setUserKey, setMealHistory, setMedical} = mmkvController()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -27,9 +27,8 @@ export default function () {
 
     const checkUserAuth = async () => {
         console.log('checking user', userStorage)
-        dispatch(setUser(userStorage))
         if (!userStorage.auth) {
-            router.replace('/register')
+            router.replace('/login')
         }
 
 
@@ -40,12 +39,12 @@ export default function () {
 
     const logout = async () => {
         console.log("username",userStorage.data.email)
-        setUserKey("loggedout");
-        setTimeout(()=>{
-            dispatch(setUser({...userState,auth:''}))
-
-        router.replace('/register')
-        },1000)
+        setUserStorage({
+            auth: '',
+            data: userStorage.data
+        })
+        setMealHistory([])
+        router.replace('/login')
 
     }
 

@@ -11,10 +11,11 @@ export default function RootLayout() {
     <PaperProvider theme={theme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="login" options={{ headerShown: false }} />
+        {/* <Stack.Screen name="login" options={{ headerShown: false }} /> */}
         <Stack.Screen name="register" options={{ headerShown: false }} />
         <Stack.Screen name="medical" options={{ headerShown: true }} />
         <Stack.Screen name="status_update" options={{ headerShown: true, title:"Update Status" }} />
+        <Stack.Screen name="tracking" options={{ headerShown: true, title:"Meal Tracking" }} />
       </Stack>
     </PaperProvider>
     </Provider>

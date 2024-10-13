@@ -3,6 +3,8 @@ const { StyleSheet } = require("react-native");
 const profileStyles = StyleSheet.create({
 
     mainContainer:{
+        width:'100%',
+        height:'100%',
         flex:1,
         padding:20,
         gap:10,
