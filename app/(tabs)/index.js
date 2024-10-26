@@ -1,21 +1,23 @@
-import { Image, StyleSheet, Platform, View, SafeAreaView, ScrollView, Text } from 'react-native';
-import { Button, PaperProvider, TextInput } from 'react-native-paper';
-import { theme } from '../configs/theme';
-import profileStyle from '../assets/styles/profileStyles'
-import bmiStyle from '@/assets/styles/bmiStyles'
+import { StyleSheet, Platform, View, SafeAreaView, ScrollView, Text, Pressable } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import { Modal, Portal } from "react-native-paper";
-import meals from './../store/foods.json'
-import mmkvController from "./../store/mmkvController";
-import useLogin from '../hooks/login/useLogin';
-import { Stack } from 'expo-router';
+import mmkvController from "./../../store/mmkvController";
 import { useEffect, useState } from 'react';
 import { SelectList } from 'react-native-dropdown-select-list';
+import meals from '../../store/foods.json'
+import { Image } from 'react-native';
+import { FontAwesome6 } from '@expo/vector-icons';
+import useAuthentication from '../../hooks/useAuthentication';
 
-export default function Tracking() {
+export default function Index() {
+    const { logout } = useAuthentication();
+
 
     const dateToday = new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     const [logMealModal, setLogMealModal] = useState(false)
     const { mealHistory, setMealHistory } = mmkvController()
+
+    const [mealHistoryState, setMealHistoryState] = useState(mealHistory)
     const [mealStats, setMealStats] = useState({ sugar: 0, carbohydrates: 0 })
     const [historyKey, setHistoryKey] = useState(dateToday)
     const [mealDates, setMealDates] = useState([])
@@ -23,8 +25,8 @@ export default function Tracking() {
     const [foodSelected, setFoodSelected] = useState({
         food: {},
         quantity: 0,
-
     })
+    const [menu, setMenu] = useState(false)
 
     useEffect(() => {
         const mfoods = meals.meals.map((data, idx) => { return { key: idx, value: data.name } })
@@ -32,9 +34,16 @@ export default function Tracking() {
     }, [])
 
     useEffect(() => {
+        console.log('meal history state', mealHistoryState)
+        setMealHistory(mealHistoryState)
+        updateMealStats()
+    }, [mealHistoryState])
+
+
+    const updateMealStats = () => {
         let newStats = mealStats
-        for (let i = 0; i < mealHistory.length; i++) {
-            const meal = mealHistory[i];
+        for (let i = 0; i < mealHistoryState.length; i++) {
+            const meal = mealHistoryState[i];
             if (meal.date == historyKey) {
                 newStats = {
                     sugar: parseInt(newStats.sugar) + parseInt(meal.sugar),
@@ -43,12 +52,8 @@ export default function Tracking() {
             }
         }
         setMealStats(newStats)
-
-        console.log(getMealDays())
         setMealDates(getMealDays())
-        console.log("history key", historyKey)
-        console.log('mealhistory', mealHistory)
-    }, [mealHistory])
+    }
 
     const saveFoodSelected = () => {
         console.log(foodSelected)
@@ -69,15 +74,15 @@ export default function Tracking() {
 
         const newMeal = { ...mealSelected[0], date: date, time: time }
         console.log(newMeal)
-        setMealHistory([...mealHistory,
+        setMealHistoryState([...mealHistory,
             newMeal
         ])
     }
 
     const getMealDays = () => {
         var dates = {};
-        for (let i = 0; i < mealHistory.length; i++) {
-            const data = mealHistory[i];
+        for (let i = 0; i < mealHistoryState.length; i++) {
+            const data = mealHistoryState[i];
             dates[data.date] = data.date
             console.log(data.date)
         }
@@ -90,6 +95,30 @@ export default function Tracking() {
     return (
         <SafeAreaView
             style={{ flex: 1 }}>
+
+            <View style={{
+                marginTop: 40,
+                padding: 20,
+                flex: 0,
+                justifyContent: 'space-between',
+                flexDirection:'row',
+                alignItems:'center'
+            }}>
+                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 10 }}>
+                    <Image style={{
+                        width: 40,
+                        borderRadius: 100,
+                        height: 40
+                    }} source={require('@/assets/images/adaptive-icon.png')} />
+                    <Text style={{
+                        fontSize: 20,
+                        fontWeight:'bold'
+                    }}>Dashboard</Text>
+                </View>
+                <Pressable onPress={()=>setMenu(true)}>
+                <FontAwesome6 name="bars" size={24} color="black" />
+                </Pressable>
+            </View>
             <ScrollView style={{ flex: 1, width: '100%' }}>
 
                 <View style={styles.mainContainer}>
@@ -106,6 +135,15 @@ export default function Tracking() {
                             <SelectList setSelected={(val) => setFoodSelected({ ...foodSelected, food: val })} data={foods} save="value" boxStyles={{ width: '100%' }} placeholder="Select food you ate" />
                             <TextInput mode='flat' label="Quantity" inputMode='numeric' onChangeText={(val) => { setFoodSelected({ ...foodSelected, quantity: val }) }} value={foodSelected.quantity} />
                             <Button mode="contained" onTouchEnd={saveFoodSelected}>SAVE</Button>
+                        </Modal>
+                        <Modal theme={{
+                            colors: {
+                                backdrop: 'rgba(138, 138, 138, 0.8)',
+                                    },
+                                }}
+                            visible={menu} onDismiss={() => setMenu(false)} contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10, gap: 30 }}>
+                            <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>Menu</Text>
+                            <Button mode="contained" buttonColor="gray" textColor="white" onTouchEnd={logout}>Logout</Button>
                         </Modal>
                     </Portal>
 
@@ -136,7 +174,7 @@ export default function Tracking() {
 
                         </View>
                         <SelectList setSelected={(val) => setHistoryKey(val)} data={mealDates} save="value" boxStyles={{ width: '100%', marginTop: 30, marginBottom: 20 }} placeholder={dateToday} />
-                        {mealHistory.map((data, idx) => (
+                        {mealHistoryState.map((data, idx) => (
                             data.date == historyKey ? (
                                 <View style={styles.trackItem} key={idx}>
                                     <View style={styles.trackItemTitle}>
@@ -147,7 +185,7 @@ export default function Tracking() {
                                 </View>
                             ) : ''
                         ))}
-                        
+
                     </View>
                 </View>
             </ScrollView>
@@ -165,7 +203,7 @@ const styles = StyleSheet.create({
     },
     topContainer: {
         height: 'auto',
-        width: '45%',
+        width: '48%',
         backgroundColor: 'white',
         justifyContent: 'center',
         alignItems: 'center',

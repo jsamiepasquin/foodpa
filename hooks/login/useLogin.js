@@ -11,6 +11,7 @@ export default function useLogin() {
     const { userStorage, setUserStorage, setUserKey } = mmkvController()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false)
 
 
     const usernameChanged = (text) => {
@@ -21,6 +22,7 @@ export default function useLogin() {
     }
 
     const handleLogin = async () => {
+        setLoading(true)
         const loginUrl = settings.server_url + '/users/login'
         try {
             const response = await axios.post(loginUrl, {
@@ -43,6 +45,7 @@ export default function useLogin() {
             })
             router.replace('/')
         } catch (err) {
+            setLoading(false)
             console.log(err)
             if (err.response) {
                 console.log(err.response.status, err.response)
@@ -61,6 +64,6 @@ export default function useLogin() {
         router.replace('/register')
     }
     return {
-        usernameChanged, passwordHanged, username, password, handleLogin, handleRegister
+        usernameChanged, passwordHanged, username, password, handleLogin, handleRegister, loading
     }
 }

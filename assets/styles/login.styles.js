@@ -26,7 +26,37 @@ exports.styles = StyleSheet.create({
         margin:'auto',
     },
     buttonLogin:{
+        padding:5,
+        borderRadius:50,
+        fontSize:30
     },
-    buttonLogin:{
+    loginInput:{
+        width:'100%',
+        borderWidth:1,
+        padding:10,
+        marginBottom:10,
+        borderRadius:25,
+    },
+    logoWrapper:{
+        flex:0,
+        justifyContent:'center',
+        alignItems:'center',
+        padding:20,
+        marginTop:50
+    },
+    logo:{
+        width:200,
+        height:200,
+        borderRadius:100,
+        marginBottom:30
+    },
+    title:{
+        fontSize:30,
+        textAlign:'center',
+        fontWeight:'bold'
+    },
+    registerMessage:{
+        textAlign:'center',
+        margin:20
     }
   });

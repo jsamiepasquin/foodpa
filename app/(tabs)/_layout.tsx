@@ -16,15 +16,24 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors[ 'light'].tint,
         headerShown: true,
       }}>
-      <Tabs.Screen
+        <Tabs.Screen name="index" options={{ headerShown: false, title:"Dashboard",
+           tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}  />
+          ),
+         }} />
+
+
+
+      {/* <Tabs.Screen
         name="index"
         options={{
+          headerShown:false,
           title: 'FOODPA', 
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color}  />
           ),
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="profile"
         options={{
