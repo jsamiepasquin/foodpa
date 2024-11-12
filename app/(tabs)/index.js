@@ -8,6 +8,7 @@ import meals from '../../store/foods.json'
 import { Image } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import useAuthentication from '../../hooks/useAuthentication';
+import { router } from 'expo-router';
 
 export default function Index() {
     const { logout } = useAuthentication();
@@ -92,6 +93,11 @@ export default function Index() {
 
     }
 
+    const feedback =()=> {
+        router.replace('/feedback')
+
+    }
+
     return (
         <SafeAreaView
             style={{ flex: 1 }}>
@@ -141,8 +147,9 @@ export default function Index() {
                                 backdrop: 'rgba(138, 138, 138, 0.8)',
                                     },
                                 }}
-                            visible={menu} onDismiss={() => setMenu(false)} contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10, gap: 30 }}>
+                            visible={menu} onDismiss={() => setMenu(false)} contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10, gap: 10 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>Menu</Text>
+                            <Button mode="contained"  textColor="white" onTouchEnd={feedback}>Feedback</Button>
                             <Button mode="contained" buttonColor="gray" textColor="white" onTouchEnd={logout}>Logout</Button>
                         </Modal>
                     </Portal>
