@@ -1,4 +1,4 @@
-import { Text, View, ScrollView } from "react-native";
+import { Text, View, ScrollView, Alert } from "react-native";
 import { SafeAreaView, } from "react-native-safe-area-context";
 import profileStyle from "@/assets/styles/profileStyles";
 import bmiStyle from '@/assets/styles/bmiStyles'
@@ -30,6 +30,17 @@ export default function Bmi() {
   const getBmi = () => {
     const w = healthData.weight
     const h = healthData.height
+
+    if(w <= 0) {
+      Alert.alert('Information','Please update your weight first.')
+      return 0
+    }
+    if(h <= 0){
+      Alert.alert('Information','Please update your height first')
+      return 0
+    }
+
+
     const heightInMeters = h / 100; 
     const bmi = w / (heightInMeters * heightInMeters);
 

@@ -39,9 +39,9 @@ export default function Medical() {
     }
     const handleInfoSave = async () => {
         switch(category){
-            case "alergies":
-                const alergies = [...medical.alergies, modalValue];
-                setMedical({...medical,alergies:alergies})
+            case "allergies":
+                const allergies = [...medical.alergies, modalValue];
+                setMedical({...medical,alergies:allergies})
                 break;
             case "diseases":
                 const disease = [...medical.desieases, modalValue];
@@ -86,17 +86,17 @@ export default function Medical() {
                     </View>
                     <Text>Current Status</Text>
 
-                    <Text style={profileStyles.sectionTitle}>Alergies</Text>
+                    <Text style={profileStyles.sectionTitle}>Allergies</Text>
                     <View style={profileStyles.profileSection}>
 
                         {medical.alergies.map((val,index)=>(
                             <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val+index} />
                         ))}
 
-                        <Button buttonColor="#d9d9d9" textColor="gray" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("alergies")}>ADD</Button>
+                        <Button buttonColor="#d9d9d9" textColor="gray" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("allergies")}>ADD</Button>
                     </View>
 
-                    <Text style={profileStyles.sectionTitle}>Desiases</Text>
+                    <Text style={profileStyles.sectionTitle}>Diseases</Text>
                     <View style={profileStyles.profileSection}>
 
                         {medical.desieases.map((val,index)=>(

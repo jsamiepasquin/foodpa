@@ -22,21 +22,29 @@ export default function mmkvController() {
     const [userStorage, setUserStorage] = useMMKVStorage('user  ', storage, {
         auth: "",
         data: {
-            height: 0,
-            weight: 0,
-            waistCircumference: 0,
-            hipCircumference: 0,
-            bodyTemperature: 0,
-            bloodPressure: "",
-            heartRate: "",
-            bloodSugar: "dL",
-            cholesterolLevels: "",
+            height: 170,
+            weight: 59,
+            waistCircumference: 94,
+            hipCircumference: 65,
+            bodyTemperature: 34,
+            bloodPressure: "110/90",
+            heartRate: "72",
+            bloodSugar: "120",
+            cholesterolLevels: "120",
             firstName: "",    // Initialize with empty strings or default values
             lastName: "",
             birthday: "",
             gender: "",
             email: ""
         }
+    })
+
+    const [feedback, setFeedback] = useMMKVStorage('feedback',storage,{
+        setupEase: '',
+        accuracy: '',
+        satisfaction: '',
+        healthImpact: '',
+        improvements: '',
     })
     const [currentCondition, setCurrentCondition] = useMMKVStorage('current_condition', storage, "Healthy")
 
@@ -49,5 +57,7 @@ export default function mmkvController() {
     const [meals, setMeals] = useMMKVStorage('meals', storage, [])
 
 
-return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals, mealHistory, setMealHistory }
+return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals, mealHistory, setMealHistory,
+    feedback,setFeedback
+ }
 }

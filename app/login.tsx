@@ -5,11 +5,13 @@ import { styles } from '../assets/styles/login.styles';
 
 import useLogin from '../hooks/login/useLogin';
 import { Stack } from 'expo-router';
+import { useState } from 'react';
+import SecureInput from '@/components/SecureInput';
 
 export default function Login() {
 
     const { password, username, usernameChanged, passwordHanged, handleLogin, handleRegister, loading } = useLogin()
-
+    const [showPassword,setShowPassword] = useState(false);
     return (
         <View style={styles.loginContainer}>
 
@@ -18,8 +20,8 @@ export default function Login() {
                 <Text style={styles.title}>FOODPA</Text>
 
             </View>
-            <TextInput placeholder='Username' style={styles.loginInput} label={"Username"} mode='flat' onChangeText={usernameChanged} value={username} />
-            <TextInput placeholder='Password' style={styles.loginInput} label={"Password"} mode='flat' onChangeText={passwordHanged} value={password} />
+            <TextInput placeholder='Username' style={styles.loginInput} label={"Username"} mode='flat' onChangeText={usernameChanged} value={username}  />
+            <SecureInput placeholder={'Password'} setValue={passwordHanged} value={password} show={showPassword} setShow={setShowPassword} style = {styles.loginInput}/>
 
 
             {loading ? (<ActivityIndicator size="small" />) : (<Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleLogin}>LOGIN</Button>

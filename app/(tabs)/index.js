@@ -94,7 +94,8 @@ export default function Index() {
     }
 
     const feedback =()=> {
-        router.replace('/feedback')
+        setMenu(false)
+        router.navigate('/feedback')
 
     }
 

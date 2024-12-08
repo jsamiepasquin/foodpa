@@ -61,7 +61,7 @@ export default function useLogin() {
     }
 
     const handleRegister = () => {
-        router.replace('/register')
+        router.push('/register')
     }
     return {
         usernameChanged, passwordHanged, username, password, handleLogin, handleRegister, loading

@@ -1,4 +1,4 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import profileStyles from "@/assets/styles/profileStyles";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
@@ -15,13 +15,9 @@ import RadioGroup, {RadioButtonProps} from 'react-native-radio-buttons-group';
 
 export default function Feedback() {
 
-    const [formData, setFormData] = useState({
-        setupEase: '',
-        accuracy: '',
-        satisfaction: '',
-        healthImpact: '',
-        improvements: '',
-    });
+    const { feedback,setFeedback } = mmkvController()
+
+    const [formData, setFormData] = useState(feedback);
 
     const setupEaseOptions = [
         { id: '1', label: 'Very easy', value: 'very_easy' },
@@ -55,48 +51,66 @@ export default function Feedback() {
         { id: '5', label: 'I haven’t noticed any changes', value: 'no_changes' },
     ];
 
-    const handleRadioButtonPress = (question, updatedRadioButtons) => {
-        console.log(updatedRadioButtons, question)
+    const handleRadioButtonPress = (question, selectedId) => {
+        console.log(selectedId, question)
         // Find the selected radio button by looking for the one with `selected` set to true
-        setFormData({ ...formData, [question]: updatedRadioButtons });
+        setFormData({ ...formData, [question]: selectedId });
       };
 
-    const QuestionBox = ({question, radioButtons, handler})=>{
+    const QuestionBox = ({question, radioButtons, handler, selectedId})=>{
         return <View style={medicalStyle.questionBox}>
-        <Text style={styles.question}>{question}</Text>
+       <Text style={medicalStyle.question}>{question}</Text>
+        <View style={{
+            flex:0,justifyContent:'center',
+            alignItems:'center',
+            marginTop:10
+        }}>
         <RadioGroup layout="column" containerStyle={medicalStyle.radios}
             radioButtons={radioButtons}
-            onPress={handler}
+            onPress={handler} selectedId={selectedId}
         />
         </View>
+        </View>
+    }
+
+    const handleFeedbackSaving = () => {
+        setFeedback(formData)
+        Alert.alert("Feedback succesfully submitted!")
     }
 
     return (
         <SafeAreaView
             style={{ flex: 1 }}
         >
-            <ScrollView style={{ flex: 1, width: '100%',padding:20 }}>
+            <ScrollView style={{ flex: 0, width: '100%',padding:20 }}>
 
                 <QuestionBox radioButtons={setupEaseOptions} question={"How easy was it to set up and start using the app?"}
-                handler={(updatedRadioButtons) => handleRadioButtonPress('setupEase', updatedRadioButtons)}/>
+                handler={(selectedId) => handleRadioButtonPress('setupEase', selectedId)} selectedId={formData.setupEase}/>
                 <QuestionBox radioButtons={accuracyOptions} question={"How accurate do you feel the health data and insights provided by the app are?"}
-                handler={(updatedRadioButtons) => handleRadioButtonPress('accuracy', updatedRadioButtons)}/>
+                handler={(selectedId) => handleRadioButtonPress('accuracy', selectedId)} selectedId={formData.accuracy}/>
                 <QuestionBox radioButtons={satisfactionOptions} question={"How satisfied are you with the features and functionalities offered by the app?"}
-                handler={(updatedRadioButtons) => handleRadioButtonPress('satisfaction', updatedRadioButtons)}/>
+                handler={(selectedId) => handleRadioButtonPress('satisfaction', selectedId)} selectedId={formData.satisfaction}/>
                 <QuestionBox radioButtons={healthImpactOptions} question={"Has the app helped you improve your health or wellness?"}
-                handler={(updatedRadioButtons) => handleRadioButtonPress('healthImpact', updatedRadioButtons)}/>
+                handler={(selectedId) => handleRadioButtonPress('healthImpact', selectedId)} selectedId={formData.healthImpact}/>
             
-                <Text style={styles.question}>What additional features or improvements would you like to see in future updates?</Text>
-                <View style={styles.inputContainer}>
+                <Text style={medicalStyle.question}>What additional features or improvements would you like to see in future updates?</Text>
+                <View style={medicalStyle.inputContainer}>
                     <TextInput
-                        style={styles.textInput}
+                        style={medicalStyle.textInput}
                         placeholder="Enter your suggestions here"
                         value={formData.improvements}
                         onChangeText={(text) => setFormData({ ...formData, improvements: text })}
                     />
                 </View>
 
-                <Button title="Submit Feedback" onPress={() => console.log(formData)} />
+                <View style={{
+                    marginBottom:50,
+                    margin:10
+                }}>
+                <Button mode="contained" onPress={handleFeedbackSaving}>Submit Feedback</Button>
+                </View>
+
+
             </ScrollView>
 
         </SafeAreaView>
@@ -107,12 +121,15 @@ const medicalStyle = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold'
     },
+    question:{
+        
+    },
     questionBox: {
         height: 'auto',
         width: '100%',
         backgroundColor: 'white',
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'start',
         borderRadius: 20,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },

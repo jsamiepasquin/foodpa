@@ -58,5 +58,12 @@ exports.styles = StyleSheet.create({
     registerMessage:{
         textAlign:'center',
         margin:20
+    },
+    secureEntry:{
+        flex:0,
+        flexDirection:'row',
+        gap:5,
+        justifyContent:'space-between',
+        alignItems:'center',
     }
   });
