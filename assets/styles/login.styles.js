@@ -17,6 +17,7 @@ exports.styles = StyleSheet.create({
         left: 0,
         position: 'absolute',
     },
+    
     loginContainer:{
         display:'flex',
         flexBasis:'column',
@@ -29,6 +30,12 @@ exports.styles = StyleSheet.create({
         padding:5,
         borderRadius:50,
         fontSize:30
+    },
+
+    buttonSecondary:{
+        backgroundColor:'#c7c7c7',
+        padding:5,
+        borderRadius:50
     },
     loginInput:{
         width:'100%',

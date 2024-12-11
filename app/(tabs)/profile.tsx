@@ -14,7 +14,7 @@ import { router } from "expo-router";
 export default function Profile() {
 
 
-  const { userStorage, setUserStorage } = mmkvController()
+  const { userStorage, setUserStorage,updateHealthData } = mmkvController()
   const { logout } = useAuthentication();
 
   const [mode, setMode] = useState('view')
@@ -23,7 +23,7 @@ export default function Profile() {
 
 
   const handleSave = async () => {
-    setUserStorage({ ...userStorage, data: healthData })
+    updateHealthData(healthData)
     setMode('view')
   }
   const logoutHandle = async () => {

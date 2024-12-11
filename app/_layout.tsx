@@ -13,6 +13,9 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
+        <Stack.Screen name="registerHealth" options={{ headerShown: false }} />
+        <Stack.Screen name="registerDisease" options={{ headerShown: false }} />
+        <Stack.Screen name="registerLastStep" options={{ headerShown: false }} />
         <Stack.Screen name="medical" options={{ headerShown: true }} />
         <Stack.Screen name="status_update" options={{ headerShown: true, title:"Update Status" }} />
       </Stack>

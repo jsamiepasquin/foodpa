@@ -14,7 +14,7 @@ export default function () {
     
     const userState = useSelector((state: RootState) => state.user)
     const dispatch = useDispatch()
-    const {userStorage, setUserStorage,setUserKey, setMealHistory, setMedical} = mmkvController()
+    const {userStorage, setUserStorage,setUserKey, setMealHistory, setMedical,fetchUserData} = mmkvController()
 
     const [isLoading, setIsLoading] = useState(false)
 
@@ -30,6 +30,9 @@ export default function () {
         if (!userStorage.auth) {
             router.replace('/login')
         }
+
+        fetchUserData()
+
 
 
     }

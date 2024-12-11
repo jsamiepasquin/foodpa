@@ -1,6 +1,10 @@
 
 import { useEffect } from 'react';
 import { MMKVLoader, useMMKVStorage } from 'react-native-mmkv-storage';
+import settings from './../configs/settings.json'
+import axios from 'axios';
+import { auth } from '@/helpers/helper';
+import { Alert } from 'react-native';
 
 const storage = new MMKVLoader().initialize();
 
@@ -54,10 +58,45 @@ export default function mmkvController() {
         history: [] as object[],
     });
 
+    const updateHealthData = async(paramData, silent=false) => {
+        
+         const saveUrl = settings.server_url + '/users/save-health-data'
+
+         const saveRequest = await axios.post(saveUrl,{
+            user_id:userStorage.auth,
+            ...paramData
+         })
+
+         const requestData = saveRequest.data
+         console.log('save data', requestData)
+         
+         if(!requestData.success){
+         return silent?false: Alert.alert('Error occurred','Failed to save your data!' )
+         }
+
+         const healthData = requestData.data
+         setUserStorage({
+            auth:userStorage.auth,
+            data:healthData
+         })
+
+         return silent?true:Alert.alert('Success','Profile data successfully saved!')
+
+    }
+
     const [meals, setMeals] = useMMKVStorage('meals', storage, [])
 
 
-return { userStorage, setUserStorage, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals, mealHistory, setMealHistory,
-    feedback,setFeedback
+    const fetchUserData = async()=>{
+        const fetchUser = await axios.get(settings.server_url+'/users/data?user_id='+userStorage.auth)
+        const userData = fetchUser.data
+
+        console.log('user data fetched',userData)
+        setUserStorage({...userStorage,data:userData})
+    }
+
+
+return { userStorage, setUserStorage,updateHealthData, currentCondition, setCurrentCondition, medical, setMedical, setUserKey, meals, setMeals, mealHistory, setMealHistory,
+    feedback,setFeedback,fetchUserData
  }
 }

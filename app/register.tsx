@@ -82,7 +82,10 @@ export default function Register() {
             let data = req.data
             console.log(data)
             setUserKey(username)
-            router.replace('/login')
+
+            let user_id = data.user_id
+            setUserStorage({...userStorage,auth:user_id})
+            router.replace('/registerHealth')
         }catch(error){
             console.log(error)
             if(error.response){
@@ -129,7 +132,8 @@ export default function Register() {
                     <SecureInput label={'Password'} setValue={(value) => handleChangeText('password', value)} value={password} show={showPassword} setShow={setShowPassword} type='paper'/>
                     <SecureInput label={'Retype Password'} setValue={(value) => handleChangeText('repassword', value)} value={repassword} show={showPassword} setShow={setShowPassword} type='paper'/>
                     {loading ? (<ActivityIndicator  size="small" />) : (<Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleRegister}>Register</Button>)}
-                    
+                    {/* <Button mode='contained' style={styles.buttonSecondary} onTouchEnd={()=>router.push('/registerHealth')}>Skip for now</Button> */}
+
                 </View>
             </ScrollView>
         </SafeAreaView>

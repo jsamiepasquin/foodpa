@@ -41,7 +41,7 @@ export default function useGemini() {
         
         BMI: ${bmi}
         
-        Notes: Consider dietary restrictions, allergies, and health conditions when planning meals.
+        Notes: Consider dietary restrictions, allergies, and health conditions when planning meals. Indicate a serving sizes for all foods.
         
         USE THIS JSON FORMAT:
         {
@@ -50,19 +50,22 @@ export default function useGemini() {
             "breakfast": [
               {
                 "item": "Oatmeal",
-                "notes": "Low-sodium oats, avoid added sugar"
+                "notes": "Low-sodium oats, avoid added sugar",
+                "servings:"1 cup"
               },...
             ],
             "lunch": [
               {
                 "item": "Grilled chicken",
-                "notes": "Lean protein source"
+                "notes": "Lean protein source",
+                "servings":"1 piece"
               },...
             ],
             "dinner": [
               {
                 "item": "Salmon",
-                "notes": "Lean protein source"
+                "notes": "Lean protein source",
+                "servings":"2 pieces"
               },...
             ]
           }

@@ -19,7 +19,7 @@ export default function Index() {
     const { mealHistory, setMealHistory } = mmkvController()
 
     const [mealHistoryState, setMealHistoryState] = useState(mealHistory)
-    const [mealStats, setMealStats] = useState({ sugar: 0, carbohydrates: 0 })
+    const [mealStats, setMealStats] = useState({ sugar: 0, carbohydrates: 0,protein:0, fats:0 })
     const [historyKey, setHistoryKey] = useState(dateToday)
     const [mealDates, setMealDates] = useState([])
     const [foods, setFoods] = useState([])
@@ -48,7 +48,9 @@ export default function Index() {
             if (meal.date == historyKey) {
                 newStats = {
                     sugar: parseInt(newStats.sugar) + parseInt(meal.sugar),
-                    carbohydrates: parseInt(newStats.carbohydrates) + parseInt(meal.carbohydrates)
+                    carbohydrates: parseInt(newStats.carbohydrates) + parseInt(meal.carbohydrates),
+                    protein:parseInt(newStats.protein) + parseInt(meal.protein),
+                    fats:parseInt(newStats.fats??0) + parseInt(meal.fat??0)
                 }
             }
         }
@@ -140,7 +142,7 @@ export default function Index() {
                             visible={logMealModal} onDismiss={() => setLogMealModal(false)} contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10, gap: 30 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>What did you eat?</Text>
                             <SelectList setSelected={(val) => setFoodSelected({ ...foodSelected, food: val })} data={foods} save="value" boxStyles={{ width: '100%' }} placeholder="Select food you ate" />
-                            <TextInput mode='flat' label="Quantity" inputMode='numeric' onChangeText={(val) => { setFoodSelected({ ...foodSelected, quantity: val }) }} value={foodSelected.quantity} />
+                            <TextInput mode='flat' label="Quantity (g)" inputMode='numeric' onChangeText={(val) => { setFoodSelected({ ...foodSelected, quantity: val }) }} value={foodSelected.quantity} />
                             <Button mode="contained" onTouchEnd={saveFoodSelected}>SAVE</Button>
                         </Modal>
                         <Modal theme={{
@@ -162,7 +164,7 @@ export default function Index() {
                         gap: 20,
                         justifyContent: 'center',
                         flexDirection: 'row',
-                        marginBottom: 50
+                        marginBottom: 10,
                     }}>
                         <View style={styles.topContainer}>
                             <Text style={styles.bmiStat}>{mealStats.sugar}</Text>
@@ -171,6 +173,21 @@ export default function Index() {
                         <View style={styles.topContainer}>
                             <Text style={styles.bmiStat}>{mealStats.carbohydrates}</Text>
                             <Text>Carbohydrate Intake</Text>
+                        </View>
+                    </View>
+                    <View style={{
+                        flex: 0,
+                        gap: 20,
+                        justifyContent: 'center',
+                        flexDirection: 'row',
+                        marginBottom: 50,}}>
+                    <View style={styles.topContainer}>
+                            <Text style={styles.bmiStat}>{mealStats.fats}</Text>
+                            <Text>Fats</Text>
+                        </View>
+                        <View style={styles.topContainer}>
+                            <Text style={styles.bmiStat}>{mealStats.protein}</Text>
+                            <Text>Protein</Text>
                         </View>
                     </View>
                     <Button mode="contained" textColor="white" onTouchEnd={() => setLogMealModal(true)}>Log Meal</Button>
@@ -265,7 +282,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     bmiStat: {
-        fontSize: 80,
+        fontSize: 60,
         fontWeight: 'bold',
     },
     bmiStatResult: {

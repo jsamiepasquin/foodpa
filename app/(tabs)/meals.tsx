@@ -108,6 +108,7 @@ export default function Meals() {
                 }} key={bi}>
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
 
                 </View>
               ))}
@@ -123,6 +124,7 @@ export default function Meals() {
                 }} key = {bi}>
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
 
                 </View>
               ))}
@@ -138,6 +140,7 @@ export default function Meals() {
                 }} key={bi}>
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
 
                 </View>
               ))}
