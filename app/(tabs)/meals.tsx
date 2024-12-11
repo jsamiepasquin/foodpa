@@ -109,7 +109,7 @@ export default function Meals() {
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
-
+                  <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
                 </View>
               ))}
               <Text style={{fontWeight:'bold'}}>Lunch</Text>
@@ -125,7 +125,7 @@ export default function Meals() {
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
-
+                  <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
                 </View>
               ))}
               <Text style={{fontWeight:'bold'}}>Dinner</Text>
@@ -141,6 +141,7 @@ export default function Meals() {
                   <Text style={{ fontWeight: 'bold' }}>{b.item}</Text>
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
 
                 </View>
               ))}

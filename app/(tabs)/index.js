@@ -75,7 +75,7 @@ export default function Index() {
             hour12: true
         });
 
-        const newMeal = { ...mealSelected[0], date: date, time: time }
+        const newMeal = { ...mealSelected[0], date: date, time: time, quantity:foodSelected.quantity }
         console.log(newMeal)
         setMealHistoryState([...mealHistory,
             newMeal
@@ -203,10 +203,13 @@ export default function Index() {
                             data.date == historyKey ? (
                                 <View style={styles.trackItem} key={idx}>
                                     <View style={styles.trackItemTitle}>
-                                        <Text style={styles.trackItemName}>{data.name}</Text>
+                                        <Text style={styles.trackItemName}>{data.quantity} x {data.name}</Text>
                                         <Text>{data.date}</Text>
+                                        <Text>Sugar: {data.sugar}, Carbohydrate  {data.carbohydrates}</Text>
+                                        <Text>Protein: {data.protein}</Text>
+                                        <Text>Fats: {data.fat}</Text>
                                     </View>
-                                    <Text>Sugar {data.sugar}, Carbohydrate {data.carbohydrates}</Text>
+                                    <Text> Servings: {data.serving_size}</Text>
                                 </View>
                             ) : ''
                         ))}
