@@ -110,6 +110,7 @@ export default function Meals() {
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>Protein:</Text> {b.protein}</Text>
                 </View>
               ))}
               <Text style={{fontWeight:'bold'}}>Lunch</Text>
@@ -126,6 +127,7 @@ export default function Meals() {
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
+                  <Text><Text style={{fontWeight:"bold"}}>Protein:</Text> {b.protein}</Text>
                 </View>
               ))}
               <Text style={{fontWeight:'bold'}}>Dinner</Text>
@@ -142,7 +144,7 @@ export default function Meals() {
                   <Text>{b.notes}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>Servings:</Text> {b.servings}</Text>
                   <Text><Text style={{fontWeight:"bold"}}>cal:</Text> {b.calories}</Text>
-
+                  <Text><Text style={{fontWeight:"bold"}}>Protein:</Text> {b.protein}</Text>
                 </View>
               ))}
             </View>
@@ -151,6 +153,18 @@ export default function Meals() {
           <View style={{gap:10, marginTop:20}}>
           <Button mode="contained" textColor="white" onTouchEnd={handleMealPlan}>Generate Meal Plan</Button>
           <Button mode="contained" textColor="white" buttonColor="red" onTouchEnd={handleReset}>Reset Meal Plan</Button>
+
+          <View style={{
+            marginTop:50,
+            flex:0,
+            justifyContent:'center',
+            alignItems:'center'
+          }}>
+            <Text style={{fontWeight:'bold'}}>Disclaimer</Text>
+            <Text>
+            The FooD PA app is specifically designed for the individual with obesity hypertension and diabetes it is not intended for use by people with other health conditions if you have any of these conditions consult your dietitian or nutritionist before following the apps recommendations.
+            </Text>
+          </View>
           </View>
         </View>
 
