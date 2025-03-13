@@ -88,11 +88,15 @@ export default function mmkvController() {
 
 
     const fetchUserData = async()=>{
-        const fetchUser = await axios.get(settings.server_url+'/users/data?user_id='+userStorage.auth)
+        try{
+            const fetchUser = await axios.get(settings.server_url+'/users/data?user_id='+userStorage.auth)
         const userData = fetchUser.data
 
         console.log('user data fetched',userData)
         setUserStorage({...userStorage,data:userData})
+        }catch(err){
+            console.log(err)
+        }
     }
 
 

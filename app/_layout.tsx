@@ -18,6 +18,7 @@ export default function RootLayout() {
         <Stack.Screen name="registerLastStep" options={{ headerShown: false }} />
         <Stack.Screen name="medical" options={{ headerShown: true }} />
         <Stack.Screen name="status_update" options={{ headerShown: true, title:"Update Status" }} />
+        <Stack.Screen name="editmeals" options={{ headerShown: true,title:'Edit Meals' }} />
       </Stack>
     </PaperProvider>
     </Provider>

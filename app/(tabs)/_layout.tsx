@@ -4,12 +4,9 @@ import React, { useEffect } from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import useAuthentication from '@/hooks/useAuthentication';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const {} = useAuthentication();
-
   return (
     <Tabs
       screenOptions={{
@@ -56,6 +53,7 @@ export default function TabLayout() {
         name="meals"
         options={{
           title: 'Meals',
+          headerShown:false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon name={focused ? 'pizza' : 'pizza-outline'} color={color} />
           ),

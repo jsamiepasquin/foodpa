@@ -13,6 +13,7 @@ import SecureInput from '../components/SecureInput'
 import mmkvController from '../store/mmkvController'
 import useGemini from "./../hooks/useGemini";
 import { calculateAge } from "./../helpers/helper";
+import foods1 from './../store/foods1.json';
 
 export default function RegisterLastStep() {
 
@@ -51,28 +52,75 @@ export default function RegisterLastStep() {
         return parseFloat(bmi.toFixed(2));
       }
     const handleNext =async()=>{
-        setLoading(true)
-    const url = settings.server_url + "/users/generate-meal-plan";
-    const userData = userStorage.data
-    const age = calculateAge(userData.birthday)
-    const bmi = getBmi()
-
-
-    const medicalHistory = ""
-    const alergies = JSON.stringify(medical.alergies);
-    const diseases = JSON.stringify(medical.desieases);
-
-
-    const mealRequest = await generateMealPlan({
-      age: age, gender: userData.gender, feeling: currentCondition, current_diseases: diseases,
-      bmi: bmi, allergies: alergies, medical_history: medicalHistory
-    })
-
-    setMeals([...meals, mealRequest.meal_plan])
-    router.replace('/(tabs)/meals')
+        generateOfflineMeals()
+        router.replace('/(tabs)/meals')
     }
     const handleSkip = () => {
         router.push('/')
+    }
+
+    const generateOfflineMeals = ()=>{
+
+        const diseases = medical.desieases;
+        let foods = [];
+        diseases.forEach(dis=>{
+          let setFoods = null;
+          if(dis.toLocaleLowerCase() == 'hypertension')setFoods = foods1.hypertension
+          if(dis.toLocaleLowerCase() == 'diabetes')setFoods = foods1.diabetes
+          if(dis.toLocaleLowerCase() == 'obesity')setFoods = foods1.obesity
+          foods = [...foods, ...setFoods]
+    
+          console.log('food for '+dis, setFoods)
+        })
+        if(diseases.length == 0 || !diseases){
+            foods = [...foods1.hypertension, ...foods1.diabetes, ...foods1.obesity]
+        }
+    
+         let pickedFoods = [];
+    
+         let breakFast = generateMeals(pickedFoods, foods)
+         pickedFoods = [...pickedFoods, ...breakFast]
+    
+         let lunch = generateMeals(pickedFoods, foods)
+         pickedFoods = [...pickedFoods, ...lunch]
+    
+         let dinner = generateMeals(pickedFoods, foods)
+         pickedFoods = [...pickedFoods, ...dinner]
+    
+         const newMeal = {
+          breakfast:breakFast,
+          lunch:lunch,
+          dinner:dinner
+         }
+    
+         setMeals([newMeal])
+    
+      }
+    
+      const generateMeals = (pickedFoods, foods)=>{
+        let finalFoods = []
+        for (let i = 0; i < 2 ; i++) {
+          let result = getRandomFood(foods, pickedFoods);
+          pickedFoods = result.pickedFoods
+          finalFoods.push(result.pickedFood)
+         }
+         return finalFoods
+      }
+      function getRandomFood(foodList, pickedFoods = []) {
+        if (foodList.length === pickedFoods.length) {
+            return "All foods have been picked.";
+        }
+    
+        let randomIndex;
+        let randomFood;
+    
+        do {
+            randomIndex = Math.floor(Math.random() * foodList.length);
+            randomFood = foodList[randomIndex];
+        } while (pickedFoods.some(picked => picked.food === randomFood.food));
+    
+        pickedFoods.push(randomFood);
+        return { pickedFood: randomFood, pickedFoods: pickedFoods };
     }
     return (
         <SafeAreaView>

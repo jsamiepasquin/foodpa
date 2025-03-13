@@ -5,62 +5,69 @@ import mmkvController from "./../../store/mmkvController";
 import { useEffect, useState } from 'react';
 import { SelectList } from 'react-native-dropdown-select-list';
 import meals from '../../store/foods.json'
+import foods1 from '../../store/foods1.json'
 import { Image } from 'react-native';
 import { FontAwesome6 } from '@expo/vector-icons';
 import useAuthentication from '../../hooks/useAuthentication';
 import { router } from 'expo-router';
+import {Colors} from '../../constants/Colors'
 
 export default function Index() {
     const { logout } = useAuthentication();
-
-
     const dateToday = new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     const [logMealModal, setLogMealModal] = useState(false)
     const { mealHistory, setMealHistory } = mmkvController()
 
-    const [mealHistoryState, setMealHistoryState] = useState(mealHistory)
-    const [mealStats, setMealStats] = useState({ sugar: 0, carbohydrates: 0,protein:0, fats:0 })
+    const [mealStats, setMealStats] = useState({ carbohydrates: 0, calories: 0,protein:0, fats:0 })
     const [historyKey, setHistoryKey] = useState(dateToday)
     const [mealDates, setMealDates] = useState([])
-    const [foods, setFoods] = useState([])
     const [foodSelected, setFoodSelected] = useState({
         food: {},
         quantity: 0,
     })
     const [menu, setMenu] = useState(false)
 
-    useEffect(() => {
-        const mfoods = meals.meals.map((data, idx) => { return { key: idx, value: data.name } })
-        setFoods(mfoods)
-    }, [])
+    const [foods, setFoods] = useState([])
+    const [foodsData, setFoodsData] = useState([])
 
-    useEffect(() => {
-        console.log('meal history state', mealHistoryState)
-        setMealHistory(mealHistoryState)
-        updateMealStats()
-    }, [mealHistoryState])
+    useEffect(()=>{
+        let combined_foods = []
 
+        for (let key in foods1) {
+            if (foods1.hasOwnProperty(key)) { // Check if the property is an own property
+                combined_foods = [...combined_foods, ...foods1[key]]
+            }
+        }
+        setFoodsData(combined_foods)
+        setFoods(combined_foods.map((fdata, idx)=>{
+            return {
+                id:idx,value:fdata.food
+            }
+        }))
 
-    const updateMealStats = () => {
-        let newStats = mealStats
-        for (let i = 0; i < mealHistoryState.length; i++) {
-            const meal = mealHistoryState[i];
+        updateStats(mealHistory)
+
+    },[])
+
+    const updateStats = (newMeals) => {
+        let newStats = {carbohydrates:0, calories:0,protein:0,fats:0}
+        for (let i = 0; i < mealHistory.length; i++) {
+            const meal = newMeals[i];
             if (meal.date == historyKey) {
                 newStats = {
-                    sugar: parseInt(newStats.sugar) + parseInt(meal.sugar),
-                    carbohydrates: parseInt(newStats.carbohydrates) + parseInt(meal.carbohydrates),
-                    protein:parseInt(newStats.protein) + parseInt(meal.protein),
-                    fats:parseInt(newStats.fats??0) + parseInt(meal.fat??0)
+                    carbohydrates: parseFloat(newStats.carbohydrates) + parseFloat(meal.carbohydrates),
+                    calories: parseFloat(newStats.calories) + parseFloat(meal.calories),
+                    protein:parseFloat(newStats.protein) + parseFloat(meal.protein),
+                    fats:parseFloat(newStats.fats??0) + parseFloat(meal.fats??0)
                 }
             }
         }
         setMealStats(newStats)
-        setMealDates(getMealDays())
     }
 
     const saveFoodSelected = () => {
         console.log(foodSelected)
-        const mealSelected = meals.meals.filter((data) => data.name == foodSelected.food)
+        const mealSelected = foodsData.filter((data) => data.food == foodSelected.food)
         setLogMealModal(false)
         const currentDate = new Date();
         const date = currentDate.toLocaleString('en-US', {
@@ -76,16 +83,17 @@ export default function Index() {
         });
 
         const newMeal = { ...mealSelected[0], date: date, time: time, quantity:foodSelected.quantity }
+        const newMeals  =[...mealHistory,newMeal]
         console.log(newMeal)
-        setMealHistoryState([...mealHistory,
-            newMeal
-        ])
+        setMealHistory(newMeals)
+        updateStats(newMeals)
+        setMealDates(getMealDays())
     }
 
     const getMealDays = () => {
         var dates = {};
-        for (let i = 0; i < mealHistoryState.length; i++) {
-            const data = mealHistoryState[i];
+        for (let i = 0; i < mealHistory.length; i++) {
+            const data = mealHistory[i];
             dates[data.date] = data.date
             console.log(data.date)
         }
@@ -166,13 +174,13 @@ export default function Index() {
                         flexDirection: 'row',
                         marginBottom: 10,
                     }}>
-                        <View style={styles.topContainer}>
-                            <Text style={styles.bmiStat}>{mealStats.sugar}</Text>
-                            <Text>Sugar Intake</Text>
+                        <View style={[styles.topContainer,{backgroundColor:Colors.sugar.background}]}>
+                            <Text style={[styles.bmiStat,{color:Colors.sugar.text}]}>{mealStats.carbohydrates.toFixed(1)}</Text>
+                            <Text style={{color:Colors.sugar.text}}>Carbohydrate Intake</Text>
                         </View>
-                        <View style={styles.topContainer}>
-                            <Text style={styles.bmiStat}>{mealStats.carbohydrates}</Text>
-                            <Text>Carbohydrate Intake</Text>
+                        <View style={[styles.topContainer,{backgroundColor:Colors.carbohydrates.background}]}>
+                            <Text style={[styles.bmiStat,{color:Colors.carbohydrates.text}]}>{mealStats.calories.toFixed(1)}</Text>
+                            <Text style={{color:Colors.carbohydrates.text}}>Calories Intake</Text>
                         </View>
                     </View>
                     <View style={{
@@ -181,13 +189,13 @@ export default function Index() {
                         justifyContent: 'center',
                         flexDirection: 'row',
                         marginBottom: 50,}}>
-                    <View style={styles.topContainer}>
-                            <Text style={styles.bmiStat}>{mealStats.fats}</Text>
+                    <View style={[styles.topContainer,{backgroundColor:Colors.fats.background}]}>
+                            <Text style={styles.bmiStat}>{mealStats.fats.toFixed(1)}</Text>
                             <Text>Fats</Text>
                         </View>
-                        <View style={styles.topContainer}>
-                            <Text style={styles.bmiStat}>{mealStats.protein}</Text>
-                            <Text>Protein</Text>
+                        <View style={[styles.topContainer,{backgroundColor:Colors.protein.background}]}>
+                            <Text style={[styles.bmiStat,{color:Colors.protein.text}]}>{mealStats.protein.toFixed(1)}</Text>
+                            <Text style={{color:Colors.protein.text}}>Protein</Text>
                         </View>
                     </View>
                     <Button mode="contained" textColor="white" onTouchEnd={() => setLogMealModal(true)}>Log Meal</Button>
@@ -199,15 +207,15 @@ export default function Index() {
 
                         </View>
                         <SelectList setSelected={(val) => setHistoryKey(val)} data={mealDates} save="value" boxStyles={{ width: '100%', marginTop: 30, marginBottom: 20 }} placeholder={dateToday} />
-                        {mealHistoryState.map((data, idx) => (
+                        {mealHistory.map((data, idx) => (
                             data.date == historyKey ? (
                                 <View style={styles.trackItem} key={idx}>
                                     <View style={styles.trackItemTitle}>
-                                        <Text style={styles.trackItemName}>{data.quantity} x {data.name}</Text>
+                                        <Text style={styles.trackItemName}>{data.quantity} x {data.food}</Text>
                                         <Text>{data.date}</Text>
-                                        <Text>Sugar: {data.sugar}, Carbohydrate  {data.carbohydrates}</Text>
+                                        <Text>Calories: {data.calories}, Carbohydrate  {data.carbohydrates}</Text>
                                         <Text>Protein: {data.protein}</Text>
-                                        <Text>Fats: {data.fat}</Text>
+                                        <Text>fats: {data.fats}</Text>
                                     </View>
                                     <Text> Servings: {data.serving_size}</Text>
                                 </View>
@@ -285,7 +293,7 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     bmiStat: {
-        fontSize: 60,
+        fontSize: 40,
         fontWeight: 'bold',
     },
     bmiStatResult: {

@@ -11,6 +11,7 @@ import useAuthentication from '@/hooks/useAuthentication';
 import mmkvController from '@/store/mmkvController'
 import HealthDataState from '@/interface/HealthDataState'
 import { router } from "expo-router";
+import { SelectList } from "react-native-dropdown-select-list";
 
 
 export default function Medical() {
@@ -74,17 +75,23 @@ export default function Medical() {
                         }}
                             visible={modalVisible} onDismiss={() => setCategory("")} contentContainerStyle={{ backgroundColor: 'white', padding: 20, margin: 20, borderRadius: 10, gap: 30 }}>
                             <Text style={{ fontSize: 15, fontWeight: 'bold', marginBottom: 10 }}>Input {category}</Text>
+                            {category == "diseases"?
+                            <SelectList setSelected={(val:string)=>setModalValue(val)} data={[{key:0, value:"Diabetes"},{key:1, value:"Hypertension"},{key:2, value:"Obesity"}]} save="value"
+                                    boxStyles={{width:'100%'}}
+                                    placeholder="Select Disease"/>:
                             <TextInput mode="flat" placeholder={category} style={{borderBottomWidth:1}} value={modalValue} onChangeText={(val) => setModalValue(val)} />
+}
                             {category == "history"?<TextInput mode="flat" style={{borderBottomWidth:1}} placeholder="Date known" inputMode="tel" value={modalValueSecondary} onChangeText={(val) => setModaValueSecondary(val)} />:""}
                             <Button mode="contained" onTouchEnd={handleInfoSave}>SAVE</Button>
                         </Modal>
                     </Portal>
+                    {/*
                     <View style={profileStyles.topContainer} onTouchEnd={() => router.push('/status_update')}>
                         <View style={profileStyles.profileDetailsTop}>
                             <Text style={medicalStyle.medicalStatus}>{currentCondition}</Text>
                         </View>
                     </View>
-                    <Text>Current Status</Text>
+                    <Text>Current Status</Text> */}
 
                     <Text style={profileStyles.sectionTitle}>Allergies</Text>
                     <View style={profileStyles.profileSection}>
@@ -93,7 +100,7 @@ export default function Medical() {
                             <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val+index} />
                         ))}
 
-                        <Button buttonColor="#d9d9d9" textColor="gray" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("allergies")}>ADD</Button>
+                        <Button buttonColor="#d9d9d9" textColor="black" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("allergies")}>ADD</Button>
                     </View>
 
                     <Text style={profileStyles.sectionTitle}>Diseases</Text>
@@ -102,7 +109,7 @@ export default function Medical() {
                         {medical.desieases.map((val,index)=>(
                             <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val} />
                         ))}
-                    <Button buttonColor="#d9d9d9" textColor="gray" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("diseases")}>ADD</Button>
+                    <Button buttonColor="#d9d9d9" textColor="black" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("diseases")}>ADD</Button>
 
                     </View>
 
@@ -111,7 +118,7 @@ export default function Medical() {
                     {medical.history.map((val,index)=>(
                             <ProfileSectionInfo label={val.diagnosis} value={val.date_diagnosed} mode="view" inputType={"text"} key={val} />
                         ))}
-                    <Button buttonColor="#d9d9d9" textColor="gray" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("history")}>ADD</Button>
+                    <Button buttonColor="#d9d9d9" textColor="black" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("history")}>ADD</Button>
                     </View>
 
 

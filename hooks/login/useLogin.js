@@ -32,6 +32,8 @@ export default function useLogin() {
             const data = response.data;
             const user = data.user;
 
+            console.log('logged user',data)
+
             setUserStorage({
                 auth: user.user_id,
                 data: {

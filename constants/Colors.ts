@@ -23,4 +23,20 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
+  protein:{
+    text:'white',
+    background:'#219fff'
+  },
+  sugar:{
+    background:'#ff2176',
+    text:'white'
+  },
+  carbohydrates:{
+    background:'#ffc421',
+    text:'white'
+  },
+  fats:{
+    background:'#fff9e8',
+    text:'black'
+  }
 };

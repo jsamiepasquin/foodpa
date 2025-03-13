@@ -60,18 +60,11 @@ export default function Profile() {
               </View>
             </View>
           )}
-          <Text style={profileStyle.sectionTitle}>Physical Appearance</Text>
+          <Text style={profileStyle.sectionTitle}>Health Information</Text>
           <View style={profileStyle.profileSection}>
             <ProfileSectionInfo label="Height (cm)" value={String(healthData.height)} mode={mode} setValue={(value) => setHealthData({ ...healthData, height: Number(value) })} inputType={"numeric"} />
             <ProfileSectionInfo label="Weight (kg)" value={String(healthData.weight)} mode={mode} setValue={(value) => setHealthData({ ...healthData, weight: Number(value) })} inputType={"numeric"} />
-            <ProfileSectionInfo label="Waist Circumference (cm)" value={String(healthData.waistCircumference)} mode={mode} setValue={(value) => setHealthData({ ...healthData, waistCircumference: Number(value) })} inputType={"numeric"} />
-            <ProfileSectionInfo label="Hip Circumference (cm)" value={String(healthData.hipCircumference)} mode={mode} setValue={(value) => setHealthData({ ...healthData, hipCircumference: Number(value) })} inputType={"numeric"} />
-          </View>
-          <Text style={profileStyle.sectionTitle}>Vital Statistics</Text>
-          <View style={profileStyle.profileSection}>
-            <ProfileSectionInfo label="Body Temperature °C" value={String(healthData.bodyTemperature)} mode={mode} setValue={(value) => setHealthData({ ...healthData, bodyTemperature: Number(value) })} inputType={"numeric"} />
-            <ProfileSectionInfo label="Blood Pressure (mmHg)" value={healthData.bloodPressure} mode={mode} setValue={(value) => setHealthData({ ...healthData, bloodPressure: value })} inputType={"text"} />
-            <ProfileSectionInfo label="Heart Rate (bpm)" value={healthData.heartRate} mode={mode} setValue={(value) => setHealthData({ ...healthData, heartRate: value })} inputType={"numeric"} />
+  
             <ProfileSectionInfo label="Blood Sugar Level (mg/dL)" value={healthData.bloodSugar} mode={mode} setValue={(value) => setHealthData({ ...healthData, bloodSugar: value })} inputType={"numeric"} />
             <ProfileSectionInfo label="Cholesterol Levels (mmol/l)" value={healthData.cholesterolLevels} mode={mode} setValue={(value) => setHealthData({ ...healthData, cholesterolLevels: value })} inputType={"numeric"} />
           </View>

@@ -11,9 +11,7 @@ import mmkvController from '@/store/mmkvController'
 export default function () {
     const rootNavigationState = useRootNavigationState()
     const navigatorReady = rootNavigationState?.key != null
-    
-    const userState = useSelector((state: RootState) => state.user)
-    const dispatch = useDispatch()
+
     const {userStorage, setUserStorage,setUserKey, setMealHistory, setMedical,fetchUserData} = mmkvController()
 
     const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +25,7 @@ export default function () {
 
     const checkUserAuth = async () => {
         console.log('checking user', userStorage)
-        if (!userStorage.auth) {
+        if (!userStorage.auth || !userStorage.data ) {
             router.replace('/login')
         }
 

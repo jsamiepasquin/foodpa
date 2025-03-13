@@ -70,16 +70,14 @@ export default function RegisterHealth() {
                         paddingBottom:20
                     }}>Tell Me About Your Health</Text>
                     <TextInput label={"Height (cm)"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,height:value})} value={healthData.height} keyboardType='numeric' />
-                    <TextInput label={"Weight (cm)"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,weight:value})} value={healthData.weight} keyboardType='numeric' />
-                    <TextInput label={"Blood Pressure"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,bloodPressure:value})} value={healthData.bloodPressure} keyboardType='numeric' />
-                    <TextInput label={"Hearth Rate"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,heartRate:value})} value={healthData.heartRate} keyboardType='numeric' />
-                    <TextInput label={"Cholesterol"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,cholesterolLevels:value})} value={healthData.cholesterolLevels} keyboardType='numeric' />
-                    <TextInput label={"Blood Sugar"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,bloodSugar:value})} value={healthData.bloodSugar} keyboardType='numeric' />
+                    <TextInput label={"Weight (kg)"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,weight:value})} value={healthData.weight} keyboardType='numeric' />
+                    {/* <TextInput label={"Cholesterol"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,cholesterolLevels:value})} value={healthData.cholesterolLevels} keyboardType='numeric' />
+                    <TextInput label={"Blood Sugar"} mode='flat' onChangeText={(value) =>setHealthData({...healthData,bloodSugar:value})} value={healthData.bloodSugar} keyboardType='numeric' /> */}
                     </View>
 
                     {loading ? (<ActivityIndicator  size="small" />) : (<Button mode='contained' style={styles.buttonLogin} onTouchEnd={handleNext}>Next</Button>)}
                     <View style={{marginBottom:10}}></View>
-                    <Button mode='contained' style={styles.buttonSecondary} onTouchEnd={handleSkip}>Skip for now</Button>
+                    <Button mode='contained' style={styles.buttonSecondary} onTouchEnd={handleSkip}>Dot it later</Button>
 
                     
                 </View>
