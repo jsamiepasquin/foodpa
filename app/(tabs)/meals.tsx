@@ -16,7 +16,7 @@ export default function Meals() {
   const { generateMealPlan } = useGemini();
   const { userStorage, setUserStorage, meals, setMeals, medical, currentCondition } = mmkvController()
   const [loading, setLoading] = useState(false)
-  const [targetNutrition, setTargetNutrition] = useState({ age: 25, calories: "0", protein: "0", carbohydrates: "0", fats: "0" })
+  const [targetNutrition, setTargetNutrition] = useState({ age: 0, calories: "0", protein: "0", carbohydrates: "0", fats: "0" })
 
 
   useEffect(() => {
@@ -36,6 +36,11 @@ export default function Meals() {
 
       console.log('food for '+dis, setFoods)
     })
+
+    if(diseases.length == 0 || !diseases){
+      foods = [...foods1.hypertension, ...foods1.diabetes, ...foods1.obesity]
+  }
+
 
      let pickedFoods = [];
 
@@ -183,25 +188,24 @@ export default function Meals() {
     targetNutritioRange = diabetesTargets
   } else if (latestDisease.toLocaleLowerCase() === 'hypertension') {
     targetNutritioRange = hypertension
-  }else
-  {
+  }else{
     targetNutritioRange = healthyTargets
   }
+  let age = calculateAge(userStorage.data.birthday);
+
+  console.log('targetNutritioRange', targetNutritioRange)
+  console.log('age', age)
 
   let _targetNutrition = null;
-  let age = calculateAge(userStorage.data.birthday);
 
   for (const value of targetNutritioRange) {
     if (value.age >= age && value.age+5 >= age) {
+        Alert.alert('Success','Target nutrition successfully calculated!')
         return setTargetNutrition(value);
     }
 }
 
-
-  setTargetNutrition(_targetNutrition);
-
-
-  }
+ }
   return (
     <SafeAreaView
       style={{ flex: 1 }}
@@ -257,7 +261,7 @@ export default function Meals() {
             gap: 20,
             justifyContent: 'center',
             flexDirection: 'row',
-            marginBottom: 10,
+            marginBottom: 20,
           }}>
             <View style={[styles.topContainer,{backgroundColor:Colors.sugar.background}]}>
               <Text style={[styles.bmiStat,{color:Colors.sugar.text}]}>{targetNutrition.carbohydrates}</Text>
@@ -268,6 +272,7 @@ export default function Meals() {
               <Text style={{color:'black'}}>Fats Target (g)</Text>
             </View>
           </View>
+          <Button mode="contained" textColor="white" onTouchEnd={generateTargetNutrition}>Calculate Targets</Button>
 
           {meals.map((m, i) => (
             <View style={{
