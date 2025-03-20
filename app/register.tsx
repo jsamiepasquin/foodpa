@@ -88,9 +88,10 @@ export default function Register() {
             router.replace('/registerHealth')
         }catch(error){
             console.log(error)
+            setLoading(false)
             if(error.response){
                 const status = error.response.status
-                if(status == 409)Alert.alert("Registration Failed","That email has already been taken")
+                if(status == 400)Alert.alert("Registration Failed","That email has already been taken")
                 else Alert.alert("Registration Failed","Something went wrong. Please try again")
 
             }else Alert.alert("Registration Failed","An unknown error occured")

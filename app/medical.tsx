@@ -1,6 +1,6 @@
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import profileStyles from "@/assets/styles/profileStyles";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { styles } from "@/assets/styles/login.styles";
 import ProfileSectionInfo from "@/components/profile/ProfileSectionInfo";
@@ -37,6 +37,48 @@ export default function Medical() {
     const handleSave = async () => {
         setUserStorage({ ...userStorage, data: healthData })
         setMode('view')
+    }
+
+    const deleteDisease = (index:number) => {
+        // show alert confirmation before deleting.
+
+        Alert.alert(
+            "Delete Disease",
+            "Are you sure you want to delete this disease?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    const diseases = medical.desieases.filter((val, i) => i !== index);
+                    setMedical({...medical,desieases:diseases})
+
+                } }
+            ]
+        );
+    
+        
+    }
+    const deleteAllergy = (index:number) => {
+        // show alert confirmation before deleting.
+        Alert.alert(
+            "Delete Allergy",
+            "Are you sure you want to delete this allergy?",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                    const allergies = medical.alergies.filter((val, i) => i !== index);
+                    setMedical({...medical,alergies:allergies})
+
+                } }
+            ]
+        );
     }
     const handleInfoSave = async () => {
         switch(category){
@@ -97,7 +139,10 @@ export default function Medical() {
                     <View style={profileStyles.profileSection}>
 
                         {medical.alergies.map((val,index)=>(
-                            <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val+index} />
+                            <View style={{flexDirection:'row',gap:10,justifyContent:'space-between',paddingLeft:10,paddingRight:10}} key={val}>
+                                <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val} />
+                                <Pressable onTouchEnd={()=>deleteAllergy(index)}><MaterialIcons name="delete" size={24} color={"red"}/></Pressable>
+                                </View>
                         ))}
 
                         <Button buttonColor="#d9d9d9" textColor="black" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("allergies")}>ADD</Button>
@@ -107,7 +152,10 @@ export default function Medical() {
                     <View style={profileStyles.profileSection}>
 
                         {medical.desieases.map((val,index)=>(
-                            <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val} />
+                            <View style={{flexDirection:'row',gap:10,justifyContent:'space-between',paddingLeft:10,paddingRight:10}} key={val}>
+                                <ProfileSectionInfo label="" value={val} mode="view" inputType={"text"} key={val} />
+                                <Pressable onTouchEnd={()=>deleteDisease(index)}><MaterialIcons name="delete" size={24} color={"red"}/></Pressable>
+                                </View>
                         ))}
                     <Button buttonColor="#d9d9d9" textColor="black" style={{ elevation: 1, width: '100%', }} onTouchEnd={() => setCategory("diseases")}>ADD</Button>
 

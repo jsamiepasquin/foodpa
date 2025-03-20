@@ -47,7 +47,7 @@ export default function Index() {
 
         updateStats(mealHistory)
 
-    },[])
+    },[mealHistory])
 
     const updateStats = (newMeals) => {
         let newStats = {carbohydrates:0, calories:0,protein:0,fats:0}
@@ -86,7 +86,6 @@ export default function Index() {
         const newMeals  =[...mealHistory,newMeal]
         console.log(newMeal)
         setMealHistory(newMeals)
-        updateStats(newMeals)
         setMealDates(getMealDays())
     }
 

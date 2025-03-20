@@ -17,12 +17,18 @@ export const calculateAge = (birthday: string): number => {
     // Split the birthday string into components
 
     // check if the birthday uses a dash or a slash
+    let month, day, year;
     if(birthday.includes('-')){
-      var [month, day, year] = birthday.split('-').map(Number);
+      var d = birthday.split('-').map(Number);
+      month = d[0];
+      day = d[1];
+      year = d[2];
     }else{
-    const [month, day, year] = birthday.split('/').map(Number);
+      var d= birthday.split('/').map(Number);
+      month = d[0];
+      day = d[1];
+      year = d[2];
     }
-
   
     // Validate the date components
     if (isNaN(month) || isNaN(day) || isNaN(year)) {

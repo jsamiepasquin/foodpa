@@ -25,7 +25,7 @@ export default function Bmi() {
     useEffect(()=>{
       let tbmi = getBmi()
       setBmi(tbmi)
-      setBmiCategory(getBMICategory(bmi))
+      setBmiCategory(getBMICategory(tbmi))
     },[healthData.height, healthData.weight])
   const getBmi = () => {
     const w = healthData.weight
