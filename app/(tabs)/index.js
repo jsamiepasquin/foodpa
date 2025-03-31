@@ -11,16 +11,18 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import useAuthentication from '../../hooks/useAuthentication';
 import { router } from 'expo-router';
 import {Colors} from '../../constants/Colors'
+import {generateTargetNutrition} from '../../helpers/helper'
 
 export default function Index() {
     const { logout } = useAuthentication();
     const dateToday = new Date().toLocaleString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
     const [logMealModal, setLogMealModal] = useState(false)
-    const { mealHistory, setMealHistory } = mmkvController()
+    const { mealHistory, setMealHistory, medical, userStorage } = mmkvController()
 
     const [mealStats, setMealStats] = useState({ carbohydrates: 0, calories: 0,protein:0, fats:0 })
     const [historyKey, setHistoryKey] = useState(dateToday)
     const [mealDates, setMealDates] = useState([])
+    const [mealsToday, setMealsToday] = useState([mealHistory.filter((data) => data.date == dateToday)])
     const [foodSelected, setFoodSelected] = useState({
         food: {},
         quantity: 0,
@@ -29,6 +31,8 @@ export default function Index() {
 
     const [foods, setFoods] = useState([])
     const [foodsData, setFoodsData] = useState([])
+    const [targetNutrition, setTargetNutrition] = useState({ age: 0, calories: "0", protein: "0", carbohydrates: "0", fats: "0" })
+
 
     useEffect(()=>{
         let combined_foods = []
@@ -45,9 +49,13 @@ export default function Index() {
             }
         }))
 
+        const targets = generateTargetNutrition(medical, userStorage)
+        setTargetNutrition(targets)        
+    },[])
+    useEffect(() => {
         updateStats(mealHistory)
+    }, [mealsToday])
 
-    },[mealHistory])
 
     const updateStats = (newMeals) => {
         let newStats = {carbohydrates:0, calories:0,protein:0,fats:0}
@@ -86,6 +94,7 @@ export default function Index() {
         const newMeals  =[...mealHistory,newMeal]
         console.log(newMeal)
         setMealHistory(newMeals)
+        setMealsToday([newMeals.filter((data) => data.date == date)])
         setMealDates(getMealDays())
     }
 
@@ -174,12 +183,20 @@ export default function Index() {
                         marginBottom: 10,
                     }}>
                         <View style={[styles.topContainer,{backgroundColor:Colors.sugar.background}]}>
+                            <Text style={{color:Colors.sugar.text}}>Carbohydrates</Text>
+
                             <Text style={[styles.bmiStat,{color:Colors.sugar.text}]}>{mealStats.carbohydrates.toFixed(1)}</Text>
-                            <Text style={{color:Colors.sugar.text}}>Carbohydrate Intake</Text>
+                            <Text style={{color:Colors.sugar.text}}>Intake</Text>
+                            <Text style={[{color:Colors.sugar.text},{fontWeight:'bold'}]}>{targetNutrition.carbohydrates}</Text>
+                            <Text style={[{color:Colors.sugar.text}]}>Target</Text>
+
                         </View>
                         <View style={[styles.topContainer,{backgroundColor:Colors.carbohydrates.background}]}>
+                        <Text style={{color:Colors.carbohydrates.text}}>Calories</Text>
                             <Text style={[styles.bmiStat,{color:Colors.carbohydrates.text}]}>{mealStats.calories.toFixed(1)}</Text>
-                            <Text style={{color:Colors.carbohydrates.text}}>Calories Intake</Text>
+                            <Text style={{color:Colors.carbohydrates.text}}>Intake</Text>
+                            <Text style={[{color:Colors.sugar.text},{fontWeight:'bold'}]}>{targetNutrition.calories}</Text>
+                            <Text style={[{color:Colors.sugar.text}]}>Target</Text>
                         </View>
                     </View>
                     <View style={{
@@ -189,12 +206,18 @@ export default function Index() {
                         flexDirection: 'row',
                         marginBottom: 50,}}>
                     <View style={[styles.topContainer,{backgroundColor:Colors.fats.background}]}>
-                            <Text style={styles.bmiStat}>{mealStats.fats.toFixed(1)}</Text>
                             <Text>Fats</Text>
+                            <Text style={styles.bmiStat}>{mealStats.fats.toFixed(1)}</Text>
+                            <Text>Intake</Text>
+                            <Text style={{fontWeight:'bold'}}>{targetNutrition.protein}</Text>
+                            <Text>Target</Text>
                         </View>
                         <View style={[styles.topContainer,{backgroundColor:Colors.protein.background}]}>
+                        <Text style={{color:Colors.protein.text}}>Protein</Text>
                             <Text style={[styles.bmiStat,{color:Colors.protein.text}]}>{mealStats.protein.toFixed(1)}</Text>
-                            <Text style={{color:Colors.protein.text}}>Protein</Text>
+                            <Text style={{color:Colors.protein.text}}>Intake</Text>
+                            <Text style={[{color:Colors.sugar.text},{fontWeight:'bold'}]}>{targetNutrition.protein}</Text>
+                            <Text style={[{color:Colors.sugar.text}]}>Target</Text>
                         </View>
                     </View>
                     <Button mode="contained" textColor="white" onTouchEnd={() => setLogMealModal(true)}>Log Meal</Button>
