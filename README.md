@@ -1,53 +1,68 @@
-# Welcome to your Expo app 👋
+# FoodPA - Food Packing Application
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Project Overview
+FoodPA is a modern mobile application built with Expo and React Native designed to streamline food order preparation and delivery tracking. The application helps food service businesses manage inventory, process orders efficiently, and provide real-time delivery updates to customers.
 
-## Get started
+## Features
+- 📱 Cross-platform mobile application (iOS & Android)
+- 🔐 User authentication and role-based access control
+- 📦 Food inventory management system
+- 📋 Real-time order tracking and management
+- 🚚 Delivery scheduling and route optimization
+- 📊 Order analytics and reporting
+- 💬 Customer notifications and updates
 
-1. Install dependencies
+## Technologies Used
+- **Framework**: React Native with Expo
+- **Language**: TypeScript/JavaScript
+- **Backend**: Node.js
+- **Database**: MongoDB
+- **Build Tools**: EAS Build
 
+## Installation Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jsamiepasquin/foodpa.git
+   cd foodpa
+   ```
+
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-2. Start the app
+3. Set up environment variables:
+   Create a `.env` file in the root directory with your configuration
 
+4. Start the development server:
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+5. Run on your preferred platform:
+   - Press `i` for iOS simulator
+   - Press `a` for Android emulator
+   - Scan QR code with Expo Go app on physical device
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Development Commands
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- `npm start` - Start the Expo development server
+- `npm run reset-project` - Reset to blank project template
+- `eas build --profile preview --platform android` - Build Android preview
+- `eas prebuild` - Generate native code
 
-## Get a fresh project
+## Project Structure
+- `app/` - Main application code with file-based routing
+- `app-example/` - Example starter code (archived after reset)
+- `components/` - Reusable React components
+- `assets/` - Images, fonts, and other static files
 
-When you're ready, run:
+## Contributing
+We welcome contributions! Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
 
-```bash
-npm run reset-project
-```
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-
-prebuild - 
-build - eas build --profile preview --platform android
+## Support
+For issues, questions, or feature requests, please open an issue on our [GitHub Issues](https://github.com/jsamiepasquin/foodpa/issues) page.
